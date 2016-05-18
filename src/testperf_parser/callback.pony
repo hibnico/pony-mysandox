@@ -44,19 +44,19 @@ class _CScanner is _Scanner2
     end
     state.skip()
     Debug.out("c")
-    _WhitespaceScanner2.create(
-      lambda(s: _WhitespaceScanner2): _ScanResult2 =>
-        Debug.out("spaces = " + s.nb.string())
-        _DScanner
-      end
-    )
+    _WhitespaceScanner2.create(this~_onEndWhitespace())
+
+  fun _onEndWhitespace(s: _WhitespaceScanner2): _ScanResult2 =>
+    Debug.out("spaces = " + s.nb.string())
+    _DScanner
+
 
 class _WhitespaceScanner2 is _Scanner2
 
   var nb: USize = 0
-  let _onResult: {(_WhitespaceScanner2): _ScanResult2} val
+  let _onResult: {(_WhitespaceScanner2): _ScanResult2}
 
-  new create(onResult: {(_WhitespaceScanner2): _ScanResult2} val) =>
+  new create(onResult: {(_WhitespaceScanner2): _ScanResult2}) =>
     _onResult = onResult
 
   fun ref scan(state: _ScannerState2): _ScanResult2 ? =>
